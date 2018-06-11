@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	</head>
+
+	<body>
+		<input type="file" id="fileId" name="fileId" value="上传图片" hidefocus="true" onchange="getUrl(this.files,this.id);" />
+		<canvas id="myCanvas" style="display: none"></canvas>
+		<input type="button" value="ya suo->"/><img src="" alt="" id="press" />
+	</body>
+	<script type="text/javascript">
+		function getUrl(fil, id) {
+			var Cnv = document.getElementById('myCanvas');
+			var Cntx = Cnv.getContext('2d'); //获取2d编辑容器
+			var imgss = new Image(); //创建一个图片
+			var agoimg = document.getElementById("ago");
+			for(var intI = 0; intI < fil.length; intI++) { //图片回显
+				var tmpFile = fil[intI]; 
+				var ext = tmpFile.name.substring(tmpFile.name.lastIndexOf(".")+1); 
+				var reader = new FileReader();
+				reader.readAsDataURL(tmpFile);
+				reader.onload = function(e) {
+					url = e.target.result;
+					imgss.src = url;
+					//					agoimg.src = url;原图
+					imgss.onload = function() {
+						//等比缩放
+						var m = imgss.width / imgss.height;
+						Cnv.height = 300; //该值影响缩放后图片的大小
+						Cnv.width = 300 * m;
+						//img放入画布中
+						//设置起始坐标，结束坐标
+						Cntx.drawImage(imgss, 0, 0, 300 * m, 300);
+						//获取canvas压缩后的图片数据
+						var Pic = document.getElementById("myCanvas").toDataURL("image/png",0.4);//0.2图片质量越小越模糊0到1
+						var imgs = document.getElementById("press");
+						imgs.src = Pic;
+						//上传
+						// 去除多余，得到base64编码的图片字节流 
+						Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "");
+						//可以用ajax提交到后台，提交后可以直接存数据库，也可以保存成图片，此处略
+						var formData = new FormData();
+						 
+						formData.append('base64Img', Pic); 
+						formData.append('name', ext); 
+					 
+						$.ajax({
+							url: 'http://192.168.10.23:9000/file/base64uploadindex', //路径
+							dataType: 'json', //服务器返回的格式,可以是json或xml等
+							type: 'post',
+							processData: false,
+							contentType: false,
+							data: formData,
+							success: function(data){ // 服务器响应成功时的处理函数
+								if(data.code == 0){
+									$(".isShow").attr("style","display: none");
+									$("#userImage").attr("src","http://files.cs.xundatong.net/"+data.data);
+									localStorage.setItem("userImage", data.data);// 保存用户上传图片
+									$(".aler").attr("style","display: none");
+								}else{
+									$('.ts').find('p').text('图片上传失败');
+									$(".loader-inner").hide();
+									$('.aler').fadeIn();
+									setTimeout(function() {
+										$('.aler').fadeOut();
+									}, 1500)
+								} 
+							},
+							error: function(data) { //服务器响应失败时的处理函数
+							}
+						});
+					}
+				}
+			}
+		}
+	</script>
+
+</html>

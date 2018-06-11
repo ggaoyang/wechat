@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JS加密JS原代码段</title>
+<body>
+JS原代码段：
+<br />
+<textarea id=v1 rows="8" cols="80">
+alert('aa');
+alert("bb");</textarea>
+<br />
+<label><input type="checkbox" value="hex" id="opt1" />生成测试加密的代码</label>
+<br />
+<button onclick="myEncode()">加密</button>
+<button onclick="fan()">翻译</button>
+<button onclick="doit()">执行加密代码</button>
+<button onclick="doDocodeJS()">生成加密后的解密函数</button>
+<br />
+<textarea id=v2 rows="8" cols="80"></textarea><br />
+<textarea id="demo" rows="8" cols="80"></textarea>
+
+<script>
+
+var arrBase=new Array();    //在正式应用时，最好都使用数组统一管理密钥
+//Base64^3
+var key="TkRSRFN6VTBUMlkxY2s5cE5scExWRFZaSzJZMWNUSk5ORFJEVEVOMWJWbDBUMjFaY3l0dGFIVjFiVUZvZFZkdGJXVnRZWFoxWlhCMEt5czRha05FYTNWdmVtOW9OMUJ2ZGpWcWEzVmhTR3QxU1VScmRWb3piSEp4ZG1wblNVbExOa2wxYkRaSlR6azFUSEZITmt3Mkt6WmFhVEEyV21sNk5UVkRSemMzZVUxSlQxZHJjV1ZYWTNOUGJVUjJaVmRqY1U5VE5HZFBZVTlxVDFNMGNtVlBRV2RuY205MllXNXZkbkJZY0hVMFZHeDFTak50YVVwcWIyMXhibXh6UzFSMmRrbDNaelpaUTFFMlltMHZOVGQxVURWaWJUQTJTWFZ0TlhCNWNUVk1lVkkwTkVORFEzVlhRblIxWVdsd2RWZHJjV1ZsYkc1MVlVOXBUMlZ6Y0hWcGRtZFBLemhxUTBSdWJXSjJiRzVhZG05b04xUnVjR0V6YjNOTGFtOXRXbFJyZGpZM2FtZEpTVXMxTmxkbE5tSTJXalpNVTJZMVduVXJOVmxsTmpWeVUySTFja013TnpkNVRVbFBWemx4WlZkSWNFOXBhR3hQVXpWd2RXVnBjQ3RUTm10bGJVaHFUMDlCWjJkeWJHMDJSR3hyWWpOd2J6UTNiR3RKTjIxMlNsUnRhVXBFYld4dlpuWjJTWGRuTmxsSFFqVTFVM2sxWVZkSU5scGxielZNZFU4MWNUSnJOV0ZsVERRMFEwTkRkVk0wWjA5WFRtY3JWMFp4SzFkT1oyVlhPV3NyWVZoMGRWZEpkSFVyT0dwRFJHeHdTM0pzYUdGNmJHbExSRzFwU2tScmRVbFFiR3BaU0d0MWIzcHFaMGxKU3paWlEzVTFUSEZQTlhKSFNqVk1kV28xWW5sbk5XRXlVVFZ2YVM4M04zbE5TVTlUTkdkUFYwNW5aVmRHY1N0WGVHZFBVelIxZFdWNWRuVnBTblYxVDBGblozSnNhRmxxY0c5aWRtMXFiM3ByZFVseWJXcHdUR3QxV2pOc2NuRjJkblpKZDJjMU4zRXhOWEZwY1RWWk1rSTFUSEZWTlZwNWJ6VlpWekkxVEdsME5EUkRRME4xWVhOdlpWZDNhSFZYUm5FclYwNXdkV2wxZFhWWFJuRXJhVXRuZFNzNGFrTkVhM1ZKUkcxelNsUnVkVFV2YTNWSmJtdDFUSEp0Y21GUWJISndabXBuU1VsTE5scHBNRFphYVhvMVRIRk5ObGxIUWpWWmFVYzJZVWMyTmxsRFJ6YzNlVTFKVDFNMFowOWhkMnhQVXpScFpWZEdaeXRUTm5WMWFVOXhLMkV4YVN0UFFXZG5jbXQxY0ZSdGJEWlljR2MzTTIxdVlWaHRhbUZNYTNWSlJHeG9XVkIyZGtsM1p6Wk1ZVVkxTmxkbE5XODJiRFZ5UTFVMVRHazJOVmxsUnpVMWNVVTBORU5EUTNWcGRYQlBWMUJzZFZNMWJtVlhkWEVyVXpSMWRWTTFibVZoV1c0ckt6aHFRMFJzYUdGMmNHdzJhbXhxTkdwd1owcEVhM1ZhTTJ4eWNYWnZiMWw2YW1kSlNVczFURzFrTldFMmNqWlpRMmsxTlZONU5VeHBOalUxZFRBMU5ubHROemQ1VFVsUFYwWnhLMjFZY1U5WFFYWlBVemwySzJsSWNYVlhTV2gxWVZscWRVOUJaMmR5Ym5KTFltdDFTWEpyZFZsMmNHdzJhbXQxVEhKdWJUZFVhM1ppTDNaMlNYZG5OVmt5UWpWd1pUSTFUR2xCTlV3eVRqVmhRM0UxV1dWME5XOHlkVFEwUTBORGRXVmlkRTlsYzNCMVZ6UjFUMjFDYnl0WFMyOVBZVmgwZFZjMWMzVXJPR3BEUkc1dE4xUnJkbUl2Y0dkSlluQnZZbkp3WjFsSWJISnhkbXhxY25acVowbEpTelZaVjNRMU5WTjVOVmxYUkRWWkt6TTFXVmQwTlV4MWNUVmFRMDQzTjNsTlNVOVROR2xsVjJ4b0sxZE9jeXRoV1hJclV6VnRaVk0wYldWVE5HZGxUMEZuWjNKd2JVeFFjR2RaU0hCdlluSnJkVFp5YkhCWlpuQm5TV0pzZFVsUWRuWkpkMmMyV21rd05sbEhRalpaUTBjMVRIVnhOV0ZYU0RaaFJ6WTJTMGROTkRSRFEwTjFWMUZwWlcxWWNVOVhRblIxVjNkc1QxZFJhVTlUTkdsbFYyeG9LeXM0YWtORWJHZE1lbTF5WVZSd2IySjJhM1Z3U0c1dFlqZHJkVzkyYkhKd2VtcG5TVWxMTlhCMU1EVmFRMGsxVEhWUE5YQmxRalZaY1djMWNVOUJOVFJMTlRjM2VVMUpUMU01YldWWGRYRXJVelJxWlZkUWNpdGhZMmxsVnl0eWRXVlhkR1ZQUVdkbmNtdDFTVzVzY0ZsbWJIWndabXQyWWk5dmNqVnliRzlMY210MllpOTJka2wzWnpWWlYzUTFOVk41TmxsSFNEVk1iVXcyV2pKbE5XSkRVRFpMUjJ3ME5FTkRRM1ZUTlcxbGJVRnZkV1ZMY2s5dGNISlBVelJ0WlcwNGIwOWxUWFJQS3pocVEwUnNhR0V6YTNWSlNHNXFiMjVzY0dKUWNIRndTSEIyY0c1dmJWazNhbWRKU1VzMVdTdEpOWEI1U2pWTWFVbzFZVmRJTlhKcE5EVlpWM1ExVEhWeE56ZDVUVWxQVjFCMEsxTTBkWFZsVDJsbFYyeHpLMWQxYVU5dFdIRlBZVXBwWlU5QloyZHliMmsyV0d0MlducHdiVXhVYm5BMFNHeHJiM3BzYTBscWEzVnZkbloyU1hkbk5rc3JNelZhUTJJMVRESkhOVnBEVWpWeE1tczFUR2wwTlc4MmJ6UTBRME5EZFZkcmNXVlROR2xsYlZoeFQxZEdjblZYWTNOUFYySnRLMkZKZENzck9HcERSSEJzTmpkc2EwcDJiWEpoVkcxek5WaHNjRzlNYTNaYVdHeHdTVlIyZGtvNFN6VmhVM0UxV1dGNU5XSkRVRFZhUTBvMVRHbFBOVXgxVHpaaE1rSTNOM2xOU1U5aGRIQlBZVmx5SzFkcmNXVnRXSEZQWlc1blpWZElkWFZwTTNJclQwRm5aM0pzYmt4RWJXbE1abkJ0WVZSc2FtSkliSEp3Y210MVNUZHNka2xFZG5aSmQyYzFUR2tyTlV4eFREVTFjVWMxVEhWUE5YRXlhelZNYVhRMVdUWTNORFJEUTBOMVYwWnlaVmRSYVU5WGEzRjFiVmwwVDFkcmNYVlhOSFZQVjFGdEt5czRha05FYTNWSmJtOTJja1JzYUZsUWJXMUxMMnh1VEVSdWNEUkljR3cyYW1wblNVbExOWEIxTURWaU5sZzFZVmRJTmxwbGJ6VTFkVFExTkZkdU5rbERRVGMzZVUxSlQxZElkWFZ0V0hGUFpWcDJkVk0yYVN0aFFYVXJZWE52SzJGemJ5dFBRV2RuY214d1MzSnNhSEpNYkhCTGJuQnhZWHB0YmtsRWEzVk1jbTkwVEZoMmRrbDNaelZaTWxNMU5GTXlOWEI1U2paYWNTczFZVFpqTmxsRFJEWlpSeTgwTkVORFEzVlRPV2gxVnpscksxTTFiVTlYVUd4MVYydHhaVzF3Y2s5cGFHcFBLemhxUTBSc2FWcEliV2xLTDJ4d2IweHNjMkpJYTNWSk0yOTBjbEJ1YkZrdmFtZEpTVXMxVEdsS05VeHBOalUxVTJZMWNrTlZOVXh4VlRWTWFUWTFjVEkzTnpkNVRVbFBhVVJ1VDFkamNVOVROR2xsVjBaeWRXbG9jMDlYWTNGUFV6WnNUMDlCWjJkeWIyYzNNMjl5TkdKdGRVeHFhM1ZKYm5CbllpOXJkWEJVYld3M1luWjJTWGRuTmxsRFp6VlplVmMxTlhsbU5YQjVOalpoUnpjMlN6WjNOVmtyVnpRMFEwTkRkVmQzYzJWVE5ISmxVemhxSzFkUmJpdGhZMmRQVXpSMWRWZElkSFVyT0dwRFJHeHdTMjV2YXpaNmJHbHhSRzV1V1VSc2JreEViSEJMYm05ck5ucHFaMGxKU3pWaFUzQTJTazl6TmtsMWJEVlphWGMxWVZOd05rbDFlRFZNYVVzM04zbE5TVTl0YUhVclpXWndaVmRPY3l0aFdYSXJWMUJxWlZkUmJpdFhkWEVyVDBGblozSnNhR0YyY0d3MmFteHFORE5zY0VremJtMXZZbXh3YjB4dGNtRlVkblpKZDJjMU5WTm1OVnA1YnpVMVUyWTFXVmQxTlhFeU56VmFlVzgxY1RJM05EUkRRME4xVjBKb0sxTTNjRTlYVVdsbFYzVjJLMWNyYkN0WGJHZ3JiVmh4VDA5QloybEVhM1ZKWm10MWIzWnViVzlpYkdnM1ltdDFTVE5zYjB0eWEzWmlMMnBuU1VsTE5WbFhkRFZNZFhFMVdXVTNOVmxwVWpWTU1sWTFZVk54TlZsbE1qYzNlVTFKVDJWVmMzVlhkR3RQWldKMFQyVnpjSFZoUldkbFYxRnJaVk0wYms5UFFXZG5jbTFwU1hwc2FVcEliRzVMYW0xdVMzSnViRXhRYkdsS1NHOXRXVGQyZGtsM1p6VmhLMFkxWW1WNk5rdzJkelpNTm5jMVdUSkpOVmxwVWpWWk1razBORU5EUTNWVE5HbGxWMnhvSzFkR2NHVlhhV3NyVjJ4MlpXRkJibVZoVDNGUEt6aHFRMFJ1YkV4TWJXdzJXSEJuY1ZCc2IwdHliM0EwU0cxdVMzSnNjbkYyYW1kSlNVczFUR2xhTldGWFNEVmlSMlUxTkVkeU5UUkhjalZoUzFRMWIybE5OemQ1VFVsUFlYUndUMkZZZEhWcGRuVlBVelpwSzFNMGFtVnRhSFVyVXpSMWRVOUJaMmR5YlcwM1ZHeHBjVVJzY0V0dWEzVmFibTF1WVZocmRVeFViR2hoTTNaMlNYZG5OWEI1U1RWaFYwZzFUR2t3TlZsWGREVk1jVzAxV2tOTk5rczJOalEwUTBORGRWZFFhVTloWTJsbFlWaDBkVmMxYzNWWFJuQmxWMmxySzFkMWNTc3JPR3BEUkc5eU56ZHJkVXN6Yld3M1ltdDFTWFpzZGpSNmJtMDNhbkJuUzB4cVowbEpTelZ2YVVzMWIybE5OV0ZQY3paTU5uYzFXVmM0TlV4cFdqVnZhVTAzTjNsTlNVOWxXblZQWVdOeGRWTTBaMlZUTkd0bFV6Um5UMWRSYWs5WFNIUjFUMEZuWjNKcmRYQlVhM1ZKTTNCbldXWnRiRGRpY0had2JtdDFTVE51YzNJM2RuWkpkMmMxV1Nzek5VeHBOalZ3Wld3MWNIbEpOVzh5WmpWWlYwbzFjR2xQTkRSRFEwTjFZVmgwZFZjMWMzVmhaSEJsVjBacEsyRlljR1ZYTlhOMVV6UnBkU3M0YWtORWJteE1URzFzTmxod2IySjJibTQyV0cxc04ySnNkalI2YkhWd2NtcG5TVWxMTldGWFNEVk1hVTgyV21Wdk5WbFhkVFZaVjNnMVlWTnhObHBwTURjM2VVMUpUMU0wYVdWcFNYSlBiV0YyZFZjcmJDdGhRWFVyVjB0dlQxTTBkRTlQUVdkbmNtOXBObGh2ZGpWcWJIWndabXQxYjNwcmRYRmlhM1ZNY214clNXNTJka2wzWnpWTWFTczFielp4Tmt0SFRUWktaVkExWWl0R05sbEhRelZpSzBRME5FTkRRM1ZoWW5SUFZ5dHNLMWRCZGs5bGMzQjFWMEYyVDFNNWRpdFhTWEZsS3pocVEwUnNhR0pZYkhKeVltNXNTMnByZFc5MmJXNUpSR3QxVEhKdmRFeFlhbWRKU1VzMVltazBOVXgxVHpWeE1tczFXbmwzTlZsbE56VlpWekkxV1dGNU56ZDVUVWxQWlZwMmRXRkpiVTlsV25aMWFVUnVUMWRSYlN0dGFIVXJhWFZ6VDA5QloyZHliSEJMYm10MVdtNXJkVmwyYm5CYU4yMXBXVVJzYmt0cWJISnhkbloyU1hkbk5XRlRialZpUTBjMVlUWmpOV0pIUmpWWlpUYzFZU3MxTlZsaGVUUTBRME5EZFZkQ2FDdFROM0JQWldKMFQyVnpjSFZYZUdobFpXMTFLMU0xYm1Vck9HcERSR3h3UzI1dmFUZEliRzVhUkd4cU5XSnNhRGQyYkhCTGJtNXlOMlpxWjBsSlN6VTFVM2sxVEcxYU5VeHBXalZNYVVJMWIybExObHBwZWpWd1pUSTNOM2xOU1U5bGJHNTFWM2hvWlZkcmNXVlROR2wxYVcxblpWZFJiU3RsWm5CbFQwRm5aM0pzYmxwRWJHZzNkbkJ2WW5ac2FEWXpiSEJMYm10MVNYSnNjRmxtZG5aSmQyYzJXbWt3TlhCbE1qVmFlWGMxVEdsTU5VeHhiVFZoWVVNMVRHMU1ORFJEUTBOMWFVeHdaV2x1WjJWVE5HbGxWMnhvSzFkamNVOVRObXhQYlZsekt5czRha05FYkdkWkwyeHljSHByZFV4eWJISnhURzlvTm5Kd2NUVnFiSFpNY25aMlNuTkxOV0lyT1RVMFV6STJXVU5wTlRVeVFUVk1jVlUyV21rd05Vd3lUamMzZVUxSlQxZFFhVTlYZFc1UFV6UjFkVk0wZFN0WGJIWmxhV3BuWldsMmNIVlBRV2RuY201dE4xUnVja3RpYkdsWk0ydDFTVzVzYUdFemJHdEphbXQyV1ROMmRrbDNaelZoVTNFMldta3dOVXh0VERVMlYyVTFXbmx2TlZsdFRqVk1jVTAzTjNsTlEzVlhVV3AxVXpSblQxZDFjU3RUTkhKbFV6UjFkVk0xYm1WWGEzRmxLemhxUTBSc2EwazNhM1Z2ZW10MVdYWnVjRm8zYTNWTWNtdDFXak5zYmt4RWFtZEpTVXMxVEcxa05XRlRjRFZNYlV3MVRHbExOV0ZYT1RWdmJYTTFXVmN4TnpkNVRVbFBVelZ1WlZkamMwOWhPVzVQYVZocUsxZFFjaXRsY21rcmFWRndaU3M0YWtGeWEzWkpMMnhvWWxocmRsbGliR3RLU0d4d1MzSndiVXhVYTNaWk0zWjJTWGRuTmtsMWJEWlpRMmsxV1ZkME5WcERTVFZaYVhBMldVTkVOV0l5YVRRMFEwTkRkVmRyY1dWWFkzTlBVeloxZFZkSmFIVlROR2xsYlVKblpWZFJhbVVyT0dwRFJHeHdTMjV3WjFsSWJXNUphbTV6Y2pkc2FsazNibTAxWW10MVRGUjJka2wzU3pWYWVYYzJXVWRDTlhCbGJEVTNTeXMxTjFOeU5VeHhValpLVXprM04zbE5TVTlUTm5WMWJVSm5aVmM1YXl0bFpuQmxZVmx5SzFkcmNYVnRXWFJQVDBGblozSnViRW92YTNVMmVteG9ZVE5yZFVwdWJHdEphbXhvWVROcmRVbElkblpKZDJjMWNUSnJOVXhwTmpWaFUzQTJXVWRDTmtsbGNUVlphVWMxY0dsUE5EUkRRME4xVnpoblQyMVljVTlYUm5KbFV6VnRaVmRSYVU5WFJuSmxWek56WlNzNGFrTkViRzVNUkhCbldVaHNjRzlNYld4eEwyOW5TWHBzZERkTWJtNDJVR3BuU1VsTE5VeDVValphWlc4MVdWZDBOVXhwUWpWWlYzZzFZVk54TmxwcE1EYzNlVTFKVDJGemMzVmhlR2QxVXpaMWRXMUNaMlZoV0c5UGFTOW9LMkYwY0U5UFFXZG5jbTl3YjBodWJqWllhM1ZKYm5CbldVaHJkbHBZYldsWlJHeHljSHAyZGtsM1p6WktaVkExWWpKcE5sbEhRalpNS3pVMWNHRjJOVXhwTmpVM05rODBORU5EUTNWWE5tMTFVelIxZFZkcmNYVmxXblpsVXpSdFpXbE9jQ3RoUkd0bEt6aHFRMFJzZFhCeWEzVktibTV0TjJwc2FYRkViM05KU0d0MlNuSnNkbkJtZG5aS09FczFXVmQwTldKeFlUVlpjV2MxVEdsYU5UVnRPVFZaVjJ3MlNUSnVOemQ1VFVsUFYwWnlaVk0wYldWWFMyOVBWelp0ZFdsT2NDdFhiV2QxWlZwMlpVOUJaMmR5Ym0xaU0yeG9ZVmh2YW1GbWJHaGhOMjkwVEhwc2FtSlFiVzVoV0haMlNYZG5Oa2t5YmpWWlYydzFOVzA1TlZsWGRUWk1VemcyWVVjM05UUkhkRFEwUTBORGRWTTBiV1ZUTkhWMVlVTnNkVmRHY25WWE5tMTFVelIxZFdGbmRrOHJPR3BEUkcxdlRIcHNhVXB1YTNWSk0zQm5Tbkp0WjNCaWEzVmlTSEJuU1dKcVowbEpTelZNYVZvMVRHazJOVmwxUkRWWlYzVTFZbkZoTlV4cE5qVnhRemczTjNsTlNVOWhaM1pQVjBsdFpWTTBhbVZ0UVcxMVYweG5LMU0xYzJWdFFXaDFUMEZuWjNKcmRVcHViR2x4Ukd4d1MyNXJkVnB1YTNWTWNtNXROMVJ1Y2t0aWRuWkpkMmMxWVZOd05VeHRXalZaY1djMVRHbGFOVXhwTmpaaFQyVTFiMHRYTkRSRFEwTjFWelp0ZFZkTGIwOWhXSEJsVnpWemRWTTBkWFZUT0dvclZ6VnpkU3M0YWtORWJXdzJXR3gxWWt4c2FYRkViSFZ3Y25Cdk5UZHNkV0pNYlc5TWVtcG5TVWxMTlZseFp6Vk1hVUUxWVRaeU5WbFhkVFZ2YVZrMVdubHZObGxsVHpjM2VVMUpUMWRSYWs5VE5HZFBWM1Z4SzFkR2NuVmhTVzFQVXpacWRWZGlkbVZQUVdkbmNteDFjSEpzYVhGRWJtMDNWRzV5UzJKc2NFdHVhM1ZhYm10MlNTOTJka2wzWnpVMWRUQTFObmx0TlZseFp6VmljV0UxWVZOd05VeHRXalpoVDJVME5FTkRRM1ZYTm0xMVYwdHZUMlZhZFU5WFJuSjFVelIxZFZkcmNDdGhaM1pQS3pocVEwUnNhWEZFYkc4MmVtdDFXWFp0YkRkaWEzVk1jbXQxU1hKdGIweDZhbWRKU1VzMVdTdEpOV0YxVFRWaVMwSTFjSGxKTlhCbGJEVndaVEkyV1VOcE56ZDVUVWxQVjB0dlQxY3pjMlZUTkhWMVYwbHJaV0ZqWjA5VE5HcGxWM1Z1VDA5QloyZHliVzAzVkcxdVNXNXJkVWxFYjJsTGVteHdXV1p0YjB4NmIyZEpXSFoyU1hkbk5WbFhkRFZpY1dFMlRFTnZOVmwxTHpWWmNXYzFUR2xLTldGWFNEUTBRME5EZFdGMGNFOWhXSFIxYVV4d1pWTTFiaXRwYUdwUFYwWjBaVmRQZFNzck9HcERSR3hxVEc1d2NXRjZiR28yY205MllUZHRiRFpFYjNZMVZHMXVTaTlxWjBsSlN6VlpWM1ExTlcwME5WbHhaelZNYVVJMlNuVklOV0ZUZERVMUszSTNOM2xOU1U5WFJuSmxVelJuWlZkTGIwOWxXblZQYldKblQxZEdjR1ZoZUc0ckt6aHFRWEpzYUdFemEzVmFibXhwY1VSdmRuQjJjSFp3Ym5CblNWQnZkR0pFZG5aSmQyYzFXVmQwTmt3MllqVlpjV2MxVEcxYU5rcHRUelUwZVZjMU5IVkRORFJEUTBOMWFYWjBLMmx1WjNWWFltMHJhVUZvWldGWmNpdFhTSFIxWld4dWRTczRha05FYm0xaU4ydDFiM1p3WjB0TWEzVlpkbTlxY1hadGFuRnliV2xaZG1wblNVbExOVXhwV2pWWmNXYzFOVk41TlZsWGRUWmlhV1kyVEdWTk5UWnRNRGMzZVUxSlQyVlZjM1ZYUzI5UFV6UnRaVmRHY25WdEsyMWxhUzlzVDIxdGJIVlBRV2RuY214cU5uSnRjbUZVYTNWdmVtOW5TVmh0YlVzdmJHdEpibTV3V2pkMmRrbDNaelZNYVRZMVRIRk1OV0ZoUXpWdlUxQTFXVEpDTlZsWGNqVk1iV1EwTkVORFEzVlhSbkVyYlZoeFQybE1jR1Z0UW1nclZ6aG5UMU00YTJWbFZXNHJLemhxUTBSdmNqZHFhM1Z2ZG5CblMweHJkVmwyYldkTWRtNXdOMFJ0WnpSWWFtZEpTVXMxVEhsck5XRTJZelZ2TWxZMU5IbFBOVGQxU1RaaFJ6YzJTVFl6TnpkNVRVbFBZV1J1VDFkc2RtVnRRMmRQYlVKeWRWZFFhWFZ0WVd0UFZ6bHZkVTlCWjJkeWJXMWhMMnQxU1hKdGFYQllhM1ZoWW14MVltSnViMHhVY0cxTVdIWjJTWGRuTlc5UFN6WkpUemsxY0U5VE5rczJPRFZ3ZVVvMVlVOTNOVnBEVGpRMFEwTkRkV2xNY0dWdFdISjFZWFIxSzIxWWNVOVRPV3hsWVVwblQxTTBkU3NyT0dwRFJHeHFObkpzY25CNmJHdEpjbTF5WW5acmRVazNiMjlaZW14cFNraHFaMGxKU3pVMkt6TTFUSFUzTlZsaGVUWk1Oa1kxTm1FNU5scHBlalZ3YVdZM04zbE5TVTlwVEhObGFVdHlkV0ZtYzJWWEwyY3JiVmwwVDFkMWRpdFhVV3BsVDBGblozSnZkbTlZYm5CeU0yeDJORkJ0YlVvdmEzVk1jbXQxU1hKc2EwbHVkblpKZDJjMVdXRjVOVXgxTnpWaVExQTFXa05LTlhCNWNUVlpWMjgxVEhGdk5EUkRRME4xVjJ0d0sxZElkSFZsZG5RcmFVdHlkVk0wYW1WWFozRjFVemwyS3lzNGFrTkViSE5KTDJ4b04ySnZhVGRJYlc0M1NHdDFTVE51YzNJM2JXMUpOMnBuU1VsTE5XRlRialZaWlRJMWNHVm5OWEpEVlRWWksxazFUR2syTlZwRFNqYzNlVTFKVDFkM2FpdFhTSFIxWVZodlQyRjNiRTlUTm5CMVYxRnFUMU0xYVN0UFFXZG5jbXhyU1c1c2NuSXZiVzAzVkc5bk56TndaMHRNYld3M2NtNXROMnAyZGtsM1p6Vk1hVWcxVEdrck5VeHBTRFZaVjI4MVdYRm1OV0lyUmpWdmFWRTBORU5EUTNWcFRIQmxiVUpvSzFNNGEyVlhZbTExVnpWMGRWYzJiaXRoZVc5bEt6aHFRMFJzYVhBemJHdEtkbXQxU1ROc2RqUlliM1kxZG14cFdUTnVjVWwyYW1kSlNVczJTMkZDTmtzclJ6Vk1iV1ExY0dsbU5sbFhUalZNY1ZVMlMwZE5OemQ1VFVsUFYxRm9UMjFoYWl0WFJuRXJWMDV3ZFdsQlp5dGxLM04xWlRkcUt5czRiV2R5Ykc1Wk4yNXlOMlp0YlVvdmJYTk1WRzV3Y25admFUZElibWRoZG5aMlNYZG5OVXhwZERWaE5uSTFXakpyTmtsdGRUVmFlV1kxVEdrMk5rcERiRGMzZVUxRGRWTTFkblZYUm10bFV6UjFkVzFJYTJWdFkyZ3JWek4yWldGamNVOHJPR3BEUkcxc04zSnViVGRxYTNaS1NHeHROWEp1YmtsMmNHZzBNMjkyWW5acVowbEpTelZNYVU4MWIybFNOVnBEVFRaTFIwMDFXVEo2TlV4cE5qVTFkVFEzTjNsTlNVOWhTV3RsWlZWdUsxTTFhU3RoWTJsUGFYWnRkVk0wZFhWaFdIVjFUMEZuWjNKc2RYQXZhM1Z2TjI1cFRHSnRjalF6YTNaS1NHdDFiemR2ZEV0TWRuWkpkMmMxV25WaE5VeHhUelpoZVRnMVdWZDFOVFY1WmpWTWFVNDFZV0ZGTkRSRFEwTjFWMEpvSzFNM2NFOWhkM1JQVjNWMksxZFFkQ3RYYTNGbFpYWjBLeXM0YWtORWJtMDNhbXh1UzJwc2FVb3piR2h4ZW10MVNUZHJkVGRNYkdoeGVuWjJTWGRMTlhCbE5qVk1jVTgxY1RKcU5VeHhUVFZNZVZJMVduVmlOVXh4VlRjM2VVMUpUMWRHZEhWVE9XMWxVemQySzJGMGNFOXBTSEYxWldkc1QyVndkQ3RQUVdkbmNtMW5TMWhzYVVwdWEzVTBOMjV3V2pkdWRrcFFhM1UwTjNCc05tcDJka2wzWnpWTWFVbzFUSEZWTlZrclRqVmhVMDQxWVZOd05sbEhWRFZNY1c4ME5FTkRRM1ZYVG1kbFZ6VnpkVmRMYjA5VE9Hb3JhVXh3WlZkTGIwOXRWVzFsS3pocVEwUnNhR0ZZYkhWd1VHdDJTa2hzYlRWeWJHdEpibXQxYjNac2FtSklhbWRKU1VzMVdUSkNOVGRMS3pWTWFUWTFUREl2TlRWVGJ6Vk1hVFkyVEZNeE56ZDVUVWxQYVRGMEsxZDFiVTlYYTNGbFV6VnRaV1ZWY1U5aFdHOVBiVUpzSzA5QloyZHliSEJMYm01dE5qZHJkVXh5YkhKeFRHeHVURVJyZFV4eWEzVk1kbloyU1hkbk5WbFhkRFUxVTNrMWJ6WnZOVmxYZFRWd1pXYzFZbVYxTlRWRFJ6UTBRME5EZFZkTGJtVlhVVzByYVU5eEsxZHJjMlZoZEhCUFpVOW9UMkZqZFhVck9HcERSRzEwU2pkc2RtSjJhM1ZhTTJ4eWNYWnRhV0ppYlcxSk4ydDFUSFpxWjBsSlN6VmhObkkxV1dreU5WbFhNalphWlc4MVRHbE9OVXhwTmpaTUszSTNOM2xOU1U5dFdIRlBWMGwwZFZkR2RIVlhkWEVyWVZseUsya3ZjU3R0WW1oUFQwRm5aM0pzY0V0dWJuWmFTR3h0Tlhac2RrdEViV3cyUkc5ME5pOXZkR0pFZG5aSmQyYzFUR2xCTlV4eFRUVTNNbEkxVERKUE5YQjVTalpNWlhZMldVTmhOemQ1VFVOMVV6UnBaV2xJY3l0WFltMHJWM1Z4SzJsb2FrOVhSbkJsVjJsckt5czRha05FYkdoaGRtdDFXak53Y1RWcWJIWk1jbXQxTjNadmNHSXZhM1ZLZW1wblNVbExOV0ZUY0RVM01sSTFXblZpTldKNVp6Vk1hVTQxV1N0Mk5XOTVhRGMzZVUxSlQyRjBjRTloV0hSMVpWVnhUMU0yYVN0aFkybGxaVUoyZFdGMVp5c3JPR3BCY205cE5saHRiVXN2Ylc1SmJtdDFjbkp1YVRaNmJHZzNjbTluU1ZoMmRrbDNaelUyZFV3MVREWXZOa3h4Y2paTWNUWTJTMlZDTmtsRFRUVlpWMG8zTjNsTlEzVnBXbkVyWlcxMlpWZDNiWFZwU0hGMWJVSjJLMU0yYW5WbE9XdGxLemhxUTBScmRXOTJiSFkxYm14cVNUTnNha3BFYkdnM2NuQnNObXBzYjNCdWFtZEpTVXMxV1VkSU5VeDFhelUyZFV3MVdXbEhOVXhwV2paTU5tSTFjR1ZzTnpkNVRVbFBVelpwSzJWVmNVOWxiWFYxVXpSeVpWZFFjSFZYWW0wclZ6aHZUMDlCWjJkeWIybHZURzF6U2xSdGFuRnFibkEzZG0xc04ySnNaMHB1YkhKd2NuWjJTWGRuTmxwcE1EWmFhWG8yWVVjMk5sbERSelpMWVVJMU4wc3JObGxEWVRRMFEwTkRkVk0wYVdWWFJtY3JaVzV5SzJGV2MwOWhTV3RQVjBaeVpXVTJjWFVyT0dwRFJHeHdTMjVzYmt4RWJXNUxjbTFwU2tSdGJrbHVhM1ZKUkc1clNXSnFaMGxKU3paTEt6TTJTMlZETlhFeVRUWlpaVTAxTjBzck5XSTJkVFpMSzBFM04zbE5TVTl0Wkc1MVlWbHlLMmt3Y0U5VE5uVjFhVTl4SzFNNGIwOVROR3AxVDBGblp6MDk=";
+key="9876543210zyxwvutsrqponmlkjihgfedcbaABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//Base64^2
+var baseKey="VFdWdVoxRnBZVzVu";
+baseKey=[0x56,0x46,0x64,0x57,0x64,0x56,0x6f,0x78,0x52,0x6e,0x42,0x5a,0x56,0x7a,0x56,0x75];
+arrBase=[key,baseKey];
+
+
+//测试使用，用于生成baseKey的十六进制数组
+var t1="",num="abc";    //用于测试时生成的加密代码，可以被翻译回去
+for(var i=0;i<baseKey.length;i++)
+t1+="0x"+baseKey.charCodeAt(i).toString(16)+",";
+document.getElementById("v2").value=t1;
+
+
+//加密js语句块的函数，①用于测试使用，②用正式环境的加密
+function myEncode()
+{
+    //num=document.getElementById("opt1").checked?"":"1";
+    var obj=document.getElementById("v1");
+    var str=obj.value;
+    var s_arr=str.split('\n');
+    var keyLength=parseInt(key.length/s_arr.length);
+    var res="";
+    for(var i=0;i<s_arr.length;i++)
+    {
+        if(num)
+        {
+            res+="[";  //②逆向加密，测试时可以关闭
+            for(var j=0,l=s_arr[i].length-1;j<s_arr[i].length;j++)  //②逆向加密
+                res+="0x"+(s_arr[i].charCodeAt(j)^key.charCodeAt(i*keyLength+l--%keyLength)).toString(16)+(j<s_arr[i].length-1?",":"");  //②逆向加密
+            res+="]"+(i<s_arr.length-1?",":"");  //②逆向加密，测试可以请关闭
+        }
+        else
+        {
+        for(var j=0,l=0;j<s_arr[i].length;j++)  //①顺序加密
+            res+="0x"+(s_arr[i].charCodeAt(j)^key.charCodeAt(i*keyLength+l++%keyLength)).toString(16)+(j<s_arr[i].length-1?",":"");  //①顺序加密
+        }
+        res+=i<s_arr.length-1?"\n":"";  //①②
+    }    
+    document.getElementById("v2").value=res;
+}
+
+//解密，反编译加密后的代码，全部使用①的代码进行解密，一般用于测试
+function fan()
+{
+    var obj=document.getElementById("v2");
+    var str=obj.value;
+    var o_arr=str.split("\n");
+    var keyLength=parseInt(key.length/o_arr.length);
+    var res="";
+    for(var i=0;i<o_arr.length;i++)
+    {
+        var t_arr=o_arr[i].split(",");
+        for(var j=0,l=0;j<t_arr.length;j++)
+        {
+            if(!!t_arr[j])
+                res+=String.fromCharCode((t_arr[j]^key.charCodeAt(i*keyLength+l++%keyLength)));
+        }
+        res+="\n";
+    }    
+    document.getElementById("demo").innerText=res;
+}
+
+//执行加密代码，
+function doit()
+{
+    var obj=document.getElementById("v2");
+    var str=obj.value;
+    var o_arr=str.replace(/(\[)*(\],)*(\])*/ig,"").split("\n");
+    for(var i=0;i<o_arr.length;i++)
+        o_arr[i]=o_arr[i].split(",");
+    eval(myDecode(o_arr));
+}
+
+//解密函数
+function myDecode()
+{
+    var pwArr = arguments[0];
+    var argLength=arguments.length;
+    var keyLength=parseInt(key.length/pwArr.length);
+    var res="";
+    if(argLength=="1")
+        for(var i=0;i<pwArr.length;i++)
+        {
+            var t_arr=pwArr[i];
+            if(num)
+            {
+                for(var j=0,l=t_arr.length-1;j<t_arr.length;j++)  //②逆向解密
+                    if(t_arr[j]!=="")
+                        res+=String.fromCharCode(t_arr[j]^key.charCodeAt(i*keyLength+l--%keyLength));  //②逆向解密
+            }
+            else
+            {
+                for(var j=0,l=0;j<t_arr.length;j++)  //①顺序解密
+                    if(t_arr[j]!=="")
+                        res+=String.fromCharCode(t_arr[j]^key.charCodeAt(i*keyLength+l++%keyLength));  //①顺序解密
+            }
+        }
+    else
+    {
+        var index=arguments[1];
+        var t_arr=pwArr[index];
+        if(num)
+        {
+            for(var j=0,l=t_arr.length-1;j<t_arr.length;j++)  //②逆向解密
+                if(t_arr[j]!=="")
+                    res+=String.fromCharCode(t_arr[j]^key.charCodeAt(index*keyLength+l--%keyLength));  //②逆向解密
+        }
+        else
+        {
+            for(var j=0,l=0;j<t_arr.length;j++)  //①顺序解密
+                if(t_arr[j]!=="")
+                    res+=String.fromCharCode(t_arr[j]^key.charCodeAt(index*keyLength+l++%keyLength));  //①顺序解密
+        }
+    }
+    return res;
+}
+
+
+
+
+
+
+/****************************************
+*                                        *
+* 以下用于对解密函数再加密的函数        *
+*                                        *
+*                                        *
+****************************************/
+
+//加密"加密的函数"
+function _000(pw)
+{
+    var pn="";
+    for (var k=0;k<pw.length;k++) 
+        pn+="0x"+(pw.charCodeAt(k)+arrBase[1][k%arrBase[1].length]).toString(16)+(k<(pw.length-1)?",":"");
+    return pn;
+}
+
+//解密加密的函数
+function _999(pw)
+{
+    var pn="";
+    for (var k=0;k<pw.length;k++) 
+        pn+=String.fromCharCode(pw[k]-arrBase[1][k%arrBase[1].length]);
+    return pn;
+}
+
+//一般用在正式环境的时候，解密加密后的js代码，由解密函数myDecode简化而来
+function decodeJS()
+{
+    var res='';
+    var pwArr = arguments[0];
+    var index=arguments[1];
+    var keyLength=parseInt(arrBase[0].length/pwArr.length);
+    var t_arr=pwArr[index];
+    for(var j=0,l=t_arr.length-1;j<t_arr.length;j++)
+        if(t_arr[j]!=='')
+            res+=String.fromCharCode(t_arr[j]^arrBase[0].charCodeAt(index*keyLength+l--%keyLength));
+    console.log(res);
+    return res;
+}
+
+//decodeJS函数的压缩版，只是函数名区分大小写了
+//function DecodeJS(){var res='';var pwArr=arguments[0];var index=arguments[1];var keyLength=parseInt(key.length/pwArr.length);var t_arr=pwArr[index];for(var j=0,l=t_arr.length-1;j<t_arr.length;j++){if(t_arr[j]!==''){res+=String.fromCharCode(t_arr[j]^key.charCodeAt(index*keyLength+l--%keyLength))}}return res};
+function DecodeJS(){var res='';var pwArr=arguments[0];var index=arguments[1];var keyLength=parseInt(arrBase[0].length/pwArr.length);var t_arr=pwArr[index];for(var j=0,l=t_arr.length-1;j<t_arr.length;j++)if(t_arr[j]!=='')res+=String.fromCharCode(t_arr[j]^arrBase[0].charCodeAt(index*keyLength+l--%keyLength));return res}
+
+//把解密函数进行加密
+function doDocodeJS()
+{
+    document.getElementById("demo").value=_000(DecodeJS.toString());
+}
+
+
+//console.log(_000("function f(x){alert(x);}"));//测试生成的加密代码
+var d=[0xbc,0xbb,0xd2,0xba,0xd8,0xbf,0xde,0xe6,0x72,0xd4,0x6a,0xd2,0x7f,0xf5,0xb7,0xe1,0xbb,0xb8,0xd8,0x7f,0xdc,0x7f,0xaa,0xf5];
+//console.log(_999(d));//测试解密，对加密后函数生成的加密代码
+//console.log("test.................");
+
+</script>
+
+</body>
+</html>
