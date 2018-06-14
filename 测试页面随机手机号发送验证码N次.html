@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			//在浏览器控制台运行
+			for(var i = 0; i < 10; i++) {
+				function getMoble() {
+					var prefixArray = new Array("130", "131", "132", "133", "135", "137", "138", "170", "187", "189");
+					var i = parseInt(10 * Math.random());
+					var prefix = prefixArray[i];
+					for(var j = 0; j < 8; j++) {
+						prefix = prefix + Math.floor(Math.random() * 10);
+					}
+					return prefix;
+
+				}
+				var aa = getMoble();
+				$.ajax({
+					type: 'POST',
+					url: "http://www.baidu.com/sms-send", //发送验证码api地址
+					data: {
+						mobile: aa,
+					},
+					success: function(data) {
+						console.log(data)
+					},
+					error: function() {
+
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>
