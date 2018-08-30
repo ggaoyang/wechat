@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>asdf</title>
+<script type="text/javascript" src="http://demo.jb51.net/JSlib/jquery/jquery-1.3.2.min.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var i = 0;
+        var value="";
+        $("#txtCustomsCode").keyup(function (e) {//给所需要处理的文本框处理keyUp事件 
+            e = e || window.event;
+            var code = e.keyCode || e.which;
+			console.log(code)
+            if ((code >= 96 && code <= 105) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57)) {//可以输入大小写字母、数字（包括小键盘） 
+                var userkeydown = $(this).val().substr(i++);
+                value = value + userkeydown;
+                alert(value);
+                var reg = "*";
+                $(this).val($(this).val().replace(userkeydown, reg));
+            } else {
+                i = $(this).val().length;
+                value = value.substr(0, i);
+                alert(value);
+            }
+        })
+    }) 
+</script> 
+
+
+
+
+</head>
+<body>
+<input type="text" name="txtCustomsCode" id="txtCustomsCode" />
+</body>
+</html>
