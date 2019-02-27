@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			var a = '1234558555,1568874488,4598888，455664566，的是范德萨范德萨股份第三个';
+			var s = a.replace(/，/ig, ','); //把中文逗号替换成英文逗号
+			var n = s.replace(/[^\x00-\xff]/g, ''); //过滤掉中文
+			ss = n.split(",");
+			for (var i = 0; i < ss.length; i++) {
+				if (ss[i] == '') {
+					ss.splice(i, 1);
+				}
+			}//去掉空字符串			
+			console.log(ss)
+		</script>
+	</body>
+
+</html>
